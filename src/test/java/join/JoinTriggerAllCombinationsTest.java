@@ -16,6 +16,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.jvnet.hudson.test.ExtractResourceSCM;
+import org.jvnet.hudson.test.ToolInstallations;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -47,7 +48,7 @@ public class JoinTriggerAllCombinationsTest extends BasicJoinPluginTest {
                         @Override
                         public AbstractProject<?, ?> apply(JoinTriggerAllCombinationsTest from) {
                             try {
-                                MavenModuleSet mavenProject = from.createMavenProject();
+                                MavenModuleSet mavenProject = from.jenkins.createProject(MavenModuleSet.class, "test");
                                 mavenProject.setQuietPeriod(0);
                                 mavenProject.setScm(new ExtractResourceSCM(getClass().getResource("maven-empty-mod.zip")));
 
@@ -62,7 +63,7 @@ public class JoinTriggerAllCombinationsTest extends BasicJoinPluginTest {
                         @Override
                         public AbstractProject<?, ?> apply(JoinTriggerAllCombinationsTest from) {
                             try {
-                                MatrixProject matrixProject = from.createMatrixProject();
+                                MatrixProject matrixProject = from.jenkins.createProject(MatrixProject.class, "test");
                                 matrixProject.setQuietPeriod(0);
                                 return matrixProject;
                             } catch (Exception e) {
@@ -114,7 +115,7 @@ public class JoinTriggerAllCombinationsTest extends BasicJoinPluginTest {
     @Test
     public void joinProjectShouldBeTriggered() throws Exception {
         assertNotNull(splitProject);
-        configureDefaultMaven();
+        ToolInstallations.configureDefaultMaven();
         AbstractProject<?,?> splitProject = projectType2Supplier.get(splitProjClass).apply(this);
         AbstractProject<?,?> intProject = projectType2Supplier.get(intProjClass).apply(this);
         AbstractProject<?,?> joinProject = projectType2Supplier.get(joinProjClass).apply(this);
