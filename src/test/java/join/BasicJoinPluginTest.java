@@ -1,10 +1,6 @@
 package join;
 
-import hudson.model.AbstractBuild;
-import hudson.model.AbstractProject;
-import hudson.model.Descriptor;
-import hudson.model.FreeStyleProject;
-import hudson.model.Saveable;
+import hudson.model.*;
 import hudson.plugins.parameterizedtrigger.AbstractBuildParameters;
 import hudson.plugins.parameterizedtrigger.BuildTriggerConfig;
 import hudson.plugins.parameterizedtrigger.ResultCondition;
@@ -15,6 +11,7 @@ import org.apache.commons.lang.StringUtils;
 import org.jvnet.hudson.test.HudsonTestCase;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -163,6 +160,10 @@ public abstract class BasicJoinPluginTest extends HudsonTestCase {
         splitProject.setQuietPeriod(0);
         joinProject = createFreeStyleProject("joinProject");
         joinProject.setQuietPeriod(0);
+        // https://www.jenkins.io/blog/2016/05/11/security-update/
+        ParameterDefinition paramDef = new StringParameterDefinition("KEY", "value", "https://www.jenkins.io/blog/2016/05/11/security-update/");
+        ParametersDefinitionProperty paramsDef = new ParametersDefinitionProperty(paramDef);
+        joinProject.addProperty(paramsDef);
     }
 
     public static class BuildTimeConstraint {
