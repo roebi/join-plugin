@@ -136,6 +136,10 @@ public class JoinTriggerTest extends BasicJoinPluginTest {
 
         Project<FreeStyleProject,FreeStyleBuild> intermediateProject =
                 createFreeStyleProjectWithNoQuietPeriod();
+        // https://www.jenkins.io/blog/2016/05/11/security-update/
+        ParameterDefinition paramDef = new StringParameterDefinition("KEY", "value", "https://www.jenkins.io/blog/2016/05/11/security-update/");
+        ParametersDefinitionProperty paramsDef = new ParametersDefinitionProperty(paramDef);
+        intermediateProject.addProperty(paramsDef);
         final CaptureEnvironmentBuilder builder = new CaptureEnvironmentBuilder();
         intermediateProject.getBuildersList().add(builder);
         BuildTriggerConfig buildTriggerConfig =
