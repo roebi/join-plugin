@@ -15,6 +15,15 @@ import java.util.List;
  */
 public class ParameterizedJoinTriggerTest extends BasicJoinPluginTest {
 
+    @Override
+    public void setUp() throws Exception {
+        super.setUp();
+        // https://www.jenkins.io/blog/2016/05/11/security-update/
+        ParameterDefinition paramDef = new StringParameterDefinition("KEY", "value", "https://www.jenkins.io/blog/2016/05/11/security-update/");
+        ParametersDefinitionProperty paramsDef = new ParametersDefinitionProperty(paramDef);
+        joinProject.addProperty(paramsDef);
+    }
+
     public void testParametrizedJoinDependencyGetsBuilt() throws Exception {
         final CaptureEnvironmentBuilder builder = new CaptureEnvironmentBuilder();
         joinProject.getBuildersList().add(builder);

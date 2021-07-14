@@ -157,10 +157,6 @@ public abstract class BasicJoinPluginTest extends HudsonTestCase {
         splitProject.setQuietPeriod(0);
         joinProject = createFreeStyleProject("joinProject");
         joinProject.setQuietPeriod(0);
-        // https://www.jenkins.io/blog/2016/05/11/security-update/
-        ParameterDefinition paramDef = new StringParameterDefinition("KEY", "value", "https://www.jenkins.io/blog/2016/05/11/security-update/");
-        ParametersDefinitionProperty paramsDef = new ParametersDefinitionProperty(paramDef);
-        joinProject.addProperty(paramsDef);
     }
 
     public static class BuildTimeConstraint {
