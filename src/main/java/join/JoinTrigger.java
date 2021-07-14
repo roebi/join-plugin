@@ -88,6 +88,8 @@ public class JoinTrigger extends Recorder implements DependecyDeclarer, MatrixAg
 
     private String joinProjects;
 
+    // https://www.jenkins.io/blog/2018/01/13/jep-200/ Refusing to marshal join.JoinTrigger for security reasons; see https://jenkins.io/redirect/class-filter/
+    // resources/META-INF/hudson.remoting.ClassFilter with Entry join.JoinTrigger
     private DescribableList<Publisher,Descriptor<Publisher>> joinPublishers =
         new DescribableList<Publisher,Descriptor<Publisher>>(Saveable.NOOP);
 
