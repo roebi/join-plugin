@@ -10,10 +10,7 @@ import hudson.util.DescribableList;
 import org.apache.commons.lang.StringUtils;
 import org.jvnet.hudson.test.HudsonTestCase;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  *
@@ -218,7 +215,7 @@ public abstract class BasicJoinPluginTest extends HudsonTestCase {
     }
 
     public FreeStyleProject createFreeStyleProjectWithNoQuietPeriod() throws Exception {
-        final FreeStyleProject freestyleProject = createFreeStyleProject();
+        final FreeStyleProject freestyleProject = createFreeStyleProject("FreeStyle_" + UUID.randomUUID());
         freestyleProject.setQuietPeriod(0);
         return freestyleProject;
     }

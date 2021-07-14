@@ -18,10 +18,7 @@ import org.junit.runners.Parameterized;
 import org.jvnet.hudson.test.ExtractResourceSCM;
 import org.jvnet.hudson.test.ToolInstallations;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Logger;
 
 /**
@@ -48,7 +45,7 @@ public class JoinTriggerAllCombinationsTest extends BasicJoinPluginTest {
                         @Override
                         public AbstractProject<?, ?> apply(JoinTriggerAllCombinationsTest from) {
                             try {
-                                MavenModuleSet mavenProject = from.jenkins.createProject(MavenModuleSet.class, "test");
+                                MavenModuleSet mavenProject = from.jenkins.createProject(MavenModuleSet.class, "Maven_" + UUID.randomUUID());
                                 mavenProject.setQuietPeriod(0);
                                 mavenProject.setScm(new ExtractResourceSCM(getClass().getResource("maven-empty-mod.zip")));
 
@@ -63,7 +60,7 @@ public class JoinTriggerAllCombinationsTest extends BasicJoinPluginTest {
                         @Override
                         public AbstractProject<?, ?> apply(JoinTriggerAllCombinationsTest from) {
                             try {
-                                MatrixProject matrixProject = from.jenkins.createProject(MatrixProject.class, "test");
+                                MatrixProject matrixProject = from.jenkins.createProject(MatrixProject.class, "Matrix_" + UUID.randomUUID());
                                 matrixProject.setQuietPeriod(0);
                                 return matrixProject;
                             } catch (Exception e) {
@@ -122,7 +119,7 @@ public class JoinTriggerAllCombinationsTest extends BasicJoinPluginTest {
         addProjectToSplitProject(splitProject, intProject);
         addJoinTriggerToSplitProject(splitProject, joinProject);
         Jenkins.get().rebuildDependencyGraph();
-        final AbstractBuild<?,?> splitBuild = splitProject.scheduleBuild2(0, new Cause.UserCause()).get();
+        final AbstractBuild<?,?> splitBuild = splitProject.scheduleBuild2(0, new Cause.UserIdCause()).get();
         waitUntilNoActivityUpTo(120*1000);
         AbstractBuild<?, ?> intBuild = getUniqueBuild(intProject);
         AbstractBuild<?, ?> joinBuild = getUniqueBuild(joinProject);
