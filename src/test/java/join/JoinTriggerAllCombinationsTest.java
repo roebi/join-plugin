@@ -9,7 +9,7 @@ import hudson.model.AbstractBuild;
 import hudson.model.AbstractProject;
 import hudson.model.Cause;
 import hudson.model.FreeStyleProject;
-import hudson.model.Hudson;
+import jenkins.model.Jenkins;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -121,7 +121,7 @@ public class JoinTriggerAllCombinationsTest extends BasicJoinPluginTest {
         AbstractProject<?,?> joinProject = projectType2Supplier.get(joinProjClass).apply(this);
         addProjectToSplitProject(splitProject, intProject);
         addJoinTriggerToSplitProject(splitProject, joinProject);
-        Hudson.getInstance().rebuildDependencyGraph();
+        Jenkins.get().rebuildDependencyGraph();
         final AbstractBuild<?,?> splitBuild = splitProject.scheduleBuild2(0, new Cause.UserCause()).get();
         waitUntilNoActivityUpTo(120*1000);
         AbstractBuild<?, ?> intBuild = getUniqueBuild(intProject);

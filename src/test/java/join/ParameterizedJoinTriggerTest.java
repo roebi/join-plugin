@@ -1,10 +1,7 @@
 package join;
 
-import hudson.model.Cause.UserCause;
-import hudson.model.FreeStyleBuild;
-import hudson.model.FreeStyleProject;
-import hudson.model.ParametersAction;
-import hudson.model.StringParameterValue;
+import hudson.model.*;
+import hudson.model.Cause.UserIdCause;
 import hudson.plugins.parameterizedtrigger.CurrentBuildParameters;
 import hudson.plugins.parameterizedtrigger.PredefinedBuildParameters;
 import hudson.plugins.parameterizedtrigger.ResultCondition;
@@ -30,7 +27,7 @@ public class ParameterizedJoinTriggerTest extends BasicJoinPluginTest {
 
         hudson.rebuildDependencyGraph();
 
-        final ParametersAction buildParameters = new ParametersAction(new StringParameterValue("KEY", "value"));
+        // final ParametersAction buildParameters = new ParametersAction(new StringParameterValue("KEY", "value"));
         FreeStyleBuild splitBuild = buildAndAssertSuccess(splitProject);
         waitUntilNoActivity();
 
@@ -54,7 +51,7 @@ public class ParameterizedJoinTriggerTest extends BasicJoinPluginTest {
 
         hudson.rebuildDependencyGraph();
 
-        final FreeStyleBuild splitBuild = splitProject.scheduleBuild2(0, new UserCause(), new ParametersAction(new StringParameterValue("KEY", "value"))).get();
+        final FreeStyleBuild splitBuild = splitProject.scheduleBuild2(0, new UserIdCause(), new ParametersAction(new StringParameterValue("KEY", "value"))).get();
         waitUntilNoActivity();
 
         final FreeStyleBuild intermediateBuild = getUniqueBuild(intermediateProject);
@@ -79,7 +76,7 @@ public class ParameterizedJoinTriggerTest extends BasicJoinPluginTest {
 
         hudson.rebuildDependencyGraph();
 
-        final FreeStyleBuild splitBuild = splitProject.scheduleBuild2(0, new UserCause(), new ParametersAction(new StringParameterValue("KEY", "value"))).get();
+        final FreeStyleBuild splitBuild = splitProject.scheduleBuild2(0, new UserIdCause(), new ParametersAction(new StringParameterValue("KEY", "value"))).get();
         waitUntilNoActivity();
         final List<FreeStyleBuild> intermediateBuilds = ParameterizedJoinTriggerTest.<FreeStyleProject, FreeStyleBuild>getUniqueBuilds(intermediateProjects);
         assertFinished(splitBuild).beforeStarted(intermediateBuilds);
@@ -101,7 +98,7 @@ public class ParameterizedJoinTriggerTest extends BasicJoinPluginTest {
 
         hudson.rebuildDependencyGraph();
 
-        final FreeStyleBuild splitBuild = splitProject.scheduleBuild2(0, new UserCause(), new ParametersAction(new StringParameterValue("KEY", "value"))).get();
+        final FreeStyleBuild splitBuild = splitProject.scheduleBuild2(0, new UserIdCause(), new ParametersAction(new StringParameterValue("KEY", "value"))).get();
         waitUntilNoActivity();
         final List<FreeStyleBuild> intermediateBuilds = JoinTriggerTest.<FreeStyleProject, FreeStyleBuild>getUniqueBuilds(intermediateProjects);
         final FreeStyleBuild joinBuild = getUniqueBuild(joinProject);
